@@ -1,5 +1,21 @@
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
+import "../App.css";
+
 function Ordens() {
-  return <h2>Ordens</h2>
+  return (
+    <>
+      <Header />
+
+      <div className="app-layout">
+        <Sidebar />
+
+        <main className="content">
+          <h1>Ordens</h1>
+        </main>
+      </div>
+    </>
+  );
 }
 
 export default Ordens;
