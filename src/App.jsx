@@ -1,10 +1,7 @@
-function App() {
+import AppRoutes from "./routes";
 
-  return (
-    <>
-      <h1>Sistema de Ordens de Serviços</h1>
-    </>
-  )
+function App() {
+  return <AppRoutes />
 }
 
 export default App
