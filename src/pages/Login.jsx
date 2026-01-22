@@ -1,5 +1,28 @@
+import { useNavigate } from "react-router-dom";
+
 function Login() {
-  return <h2>Login</h2>
+  const navigate = useNavigate();
+
+  function handleLogin(e) {
+    e.preventDefault();
+
+    // Simulação de login (Dia 2)
+    localStorage.setItem("auth", "true");
+
+    navigate("/dashboard");
+  }
+
+  return (
+    <div>
+      <h1>Login</h1>
+
+      <form onSubmit={handleLogin}>
+        <input type="email" placeholder="Email" />
+        <input type="password" placeholder="Senha" />
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+  );
 }
 
 export default Login;
