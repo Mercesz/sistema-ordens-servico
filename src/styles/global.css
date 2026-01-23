@@ -1,6 +1,4 @@
-.card {
-    background-color: #F5F5F5;
-    padding: 12pz;
-    margin-top: 10pz;
-    border-radius: 6pz;
+* {
+    margin: 0;
+    padding: 0;
 }

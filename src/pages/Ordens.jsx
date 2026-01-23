@@ -10,11 +10,24 @@ function Ordens() {
   useEffect(() => {
     api.get("/ordens")
       .then(response => {
-        console.log("RESPONSE>DATA", response.data)
         setOrdens(response.data);
       })
       .catch(err => console.error(err));
   }, []);
+
+  function handleUpdateStatus(id, novoStatus) {
+    api.patch(`/ordens/${id}`, {
+      status: novoStatus
+    }).then(() => {
+      setOrdens(prev =>
+        prev.map(ordem =>
+          ordem.id === id
+            ? { ...ordem, status: novoStatus }
+            : ordem
+        )
+      );
+    });
+  }
 
   return (
     <>
@@ -31,6 +44,22 @@ function Ordens() {
               <strong>{ordem.cliente}</strong>
               <p>{ordem.descricao}</p>
               <span>Status: {ordem.status}</span>
+
+              <div className="actions">
+                <button
+                  onClick={() => handleUpdateStatus(ordem.id, "Em andamento")}
+                  disabled={ordem.status !== "Aberta"}
+                >
+                  Em andamento
+                </button>
+
+                <button
+                  onClick={() => handleUpdateStatus(ordem.id, "Finalizada")}
+                  disabled={ordem.status === "Finalizada"}
+                >
+                  Finalizar
+                </button>
+              </div>
             </div>
           ))}
 

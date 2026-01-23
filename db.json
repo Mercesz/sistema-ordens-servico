@@ -4,13 +4,19 @@
       "id": "1",
       "cliente": "João Silva",
       "descricao": "Troca de tela",
-      "status": "Em andamento"
+      "status": "Finalizada"
     },
     {
       "id": "3e35",
       "cliente": "Ezequiel",
       "descricao": "test",
-      "status": "Aberta"
+      "status": "Em andamento"
+    },
+    {
+      "id": "e70b",
+      "cliente": "Ezequiel",
+      "descricao": "AOBA",
+      "status": "Em andamento"
     }
   ]
 }
