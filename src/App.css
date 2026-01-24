@@ -70,3 +70,37 @@ button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+.status {
+    display: inline-block;
+    margin-top: 6px;
+    font-weight: bold;
+}
+
+.status.aberta {
+    color: #1E88E5;
+}
+
+.status.em-andamento {
+    color: #F9A825;
+}
+
+.status.finalizada {
+    color: #2E7D32;
+}
+
+form {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+input {
+    padding: 8px;
+    width: 200px;
+}
+
+button {
+    padding: 8px 14px;
+    cursor: pointer;
+}

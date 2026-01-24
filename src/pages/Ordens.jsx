@@ -5,6 +5,7 @@ import { api } from "../services/api";
 import "../App.css";
 
 function Ordens() {
+  const [loading, setLoading] = useState(true);
   const [ordens, setOrdens] = useState([]);
 
   useEffect(() => {
@@ -12,7 +13,8 @@ function Ordens() {
       .then(response => {
         setOrdens(response.data);
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
   }, []);
 
   function handleUpdateStatus(id, novoStatus) {
@@ -38,12 +40,19 @@ function Ordens() {
 
         <main className="content">
           <h1>Ordens de Serviços</h1>
+          {loading && <p>Carregando ordens...</p>}
+
+          {!loading && ordens.length === 0 && (
+            <p>Nenhuma ordem cadastrada.</p>
+          )}
 
           {ordens.map(ordem => (
             <div key={ordem.id} className="card">
               <strong>{ordem.cliente}</strong>
               <p>{ordem.descricao}</p>
-              <span>Status: {ordem.status}</span>
+              <span className={`status ${ordem.status.toLowerCase().replace(" ", "-")}`}>
+                Status: {ordem.status}
+              </span>
 
               <div className="actions">
                 <button

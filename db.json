@@ -17,6 +17,12 @@
       "cliente": "Ezequiel",
       "descricao": "AOBA",
       "status": "Em andamento"
+    },
+    {
+      "id": "5959",
+      "cliente": "Ezequiel",
+      "descricao": "TEstando",
+      "status": "Finalizada"
     }
   ]
 }
