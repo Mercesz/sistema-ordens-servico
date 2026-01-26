@@ -9,7 +9,9 @@ function Ordens() {
 
   const [ordens, setOrdens] = useState([]);
 
-  const [filtro, setFiltro] = useState("Todas");
+  const [filtro, setFiltro] = useState(
+    localStorage.getItem("filtroOrdens") || "Todas"
+  );
 
   const totalAbertas = ordens.filter(o => o.status === "Aberta").length;
   const totalAndamento = ordens.filter(o => o.status === "Em andamento").length;
@@ -22,6 +24,9 @@ function Ordens() {
       : ordens.filter(ordem => ordem.status === filtro)
   ).slice().sort((a, b) => b.id - a.id);
 
+  useEffect(() => {
+    localStorage.setItem("filtroOrdens", filtro);
+  }, [filtro]);
 
   useEffect(() => {
     api.get("/ordens")
@@ -43,6 +48,16 @@ function Ordens() {
             : ordem
         )
       );
+    });
+  }
+
+  function handleDelete(id) {
+    const confirmar = window.confirm("Tem certeza que deseja excluir esta ordem?");
+
+    if (!confirmar) return;
+
+    api.delete(`/ordens/${id}`).then(() => {
+      setOrdens(prev => prev.filter(ordem => ordem.id !== id));
     });
   }
 
@@ -102,6 +117,7 @@ function Ordens() {
               </span>
 
               <div className="actions">
+
                 <button
                   onClick={() => handleUpdateStatus(ordem.id, "Em andamento")}
                   disabled={ordem.status !== "Aberta"}
@@ -115,6 +131,13 @@ function Ordens() {
                 >
                   Finalizar
                 </button>
+
+                <button
+                  className="danger"
+                  onClick={() => handleDelete(ordem.id)}>
+                  Excluir
+                </button>
+
               </div>
             </div>
           ))}

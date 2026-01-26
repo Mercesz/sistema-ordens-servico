@@ -117,3 +117,11 @@ form {
     color: #fff;
     border-color: #1976d2;
 }
+
+button.danger {
+    background-color: #D32F2F;
+}
+
+button.danger:hover {
+    background-color: #b71c1c;
+}

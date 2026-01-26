@@ -6,7 +6,6 @@ function Login() {
   function handleLogin(e) {
     e.preventDefault();
 
-    // Simulação de login (Dia 2)
     localStorage.setItem("auth", "true");
 
     navigate("/dashboard");
