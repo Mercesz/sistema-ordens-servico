@@ -6,13 +6,22 @@ import "../App.css";
 
 function Ordens() {
   const [loading, setLoading] = useState(true);
+
   const [ordens, setOrdens] = useState([]);
+
   const [filtro, setFiltro] = useState("Todas");
 
-  const ordensFiltradas =
+  const totalAbertas = ordens.filter(o => o.status === "Aberta").length;
+  const totalAndamento = ordens.filter(o => o.status === "Em andamento").length;
+  const totalFinalizadas = ordens.filter(o => o.status === "Finalizada").length;
+
+
+  const ordensFiltradas = (
     filtro === "Todas"
       ? ordens
-      : ordens.filter(ordem => ordem.status === filtro);
+      : ordens.filter(ordem => ordem.status === filtro)
+  ).slice().sort((a, b) => b.id - a.id);
+
 
   useEffect(() => {
     api.get("/ordens")
@@ -48,11 +57,35 @@ function Ordens() {
           <h1>Ordens de Serviços</h1>
 
           <div className="filters">
-            <button onClick={() => setFiltro("Todas")}>Todas</button>
-            <button onClick={() => setFiltro("Aberta")}>Abertas</button>
-            <button onClick={() => setFiltro("Em andamento")}>Em andamento</button>
-            <button onClick={() => setFiltro("Finalizada")}>Finalizadas</button>
+            <button
+              className={filtro === "Todas" ? "active" : ""}
+              onClick={() => setFiltro("Todas")}
+            >
+              Todas ({ordens.length})
+            </button>
+
+            <button
+              className={filtro === "Aberta" ? "active" : ""}
+              onClick={() => setFiltro("Aberta")}
+            >
+              Abertas ({totalAbertas})
+            </button>
+
+            <button
+              className={filtro === "Em andamento" ? "active" : ""}
+              onClick={() => setFiltro("Em andamento")}
+            >
+              Em andamento ({totalAndamento})
+            </button>
+
+            <button
+              className={filtro === "Finalizada" ? "active" : ""}
+              onClick={() => setFiltro("Finalizada")}
+            >
+              Finalizadas ({totalFinalizadas})
+            </button>
           </div>
+
 
           {loading && <p>Carregando ordens...</p>}
 
