@@ -7,6 +7,12 @@ import "../App.css";
 function Ordens() {
   const [loading, setLoading] = useState(true);
   const [ordens, setOrdens] = useState([]);
+  const [filtro, setFiltro] = useState("Todas");
+
+  const ordensFiltradas =
+    filtro === "Todas"
+      ? ordens
+      : ordens.filter(ordem => ordem.status === filtro);
 
   useEffect(() => {
     api.get("/ordens")
@@ -40,13 +46,21 @@ function Ordens() {
 
         <main className="content">
           <h1>Ordens de Serviços</h1>
+
+          <div className="filters">
+            <button onClick={() => setFiltro("Todas")}>Todas</button>
+            <button onClick={() => setFiltro("Aberta")}>Abertas</button>
+            <button onClick={() => setFiltro("Em andamento")}>Em andamento</button>
+            <button onClick={() => setFiltro("Finalizada")}>Finalizadas</button>
+          </div>
+
           {loading && <p>Carregando ordens...</p>}
 
           {!loading && ordens.length === 0 && (
             <p>Nenhuma ordem cadastrada.</p>
           )}
 
-          {ordens.map(ordem => (
+          {ordensFiltradas.map(ordem => (
             <div key={ordem.id} className="card">
               <strong>{ordem.cliente}</strong>
               <p>{ordem.descricao}</p>
@@ -71,6 +85,7 @@ function Ordens() {
               </div>
             </div>
           ))}
+
 
         </main>
       </div>
