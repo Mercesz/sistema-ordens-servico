@@ -24,22 +24,25 @@ Aplicação web desenvolvida em React para gerenciamento de Ordens de Serviço, 
 
 ## Estrutura do projeto
 
+
+```
 src/
-├─ components
-├─ pages
-├─ hooks
-├─ contexts
-├─ routes
-├─ services
+├── components
+├── pages
+├── hooks
+├── contexts
+├── routes
+└─ services
+```
 
 ## Como rodar o projeto
 ```
-  # Instalar dependências
+   - Instalar dependências
   npm install
 
-  # Inicia o front-end
+   - Inicia o front-end
   npm run dev
 
-  # Inicia API FAKE
+   - Inicia API FAKE
   npm run server
 ```
