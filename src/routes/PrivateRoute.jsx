@@ -1,9 +1,13 @@
 import { Navigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
-function PrivateRoute({ children }) {
-  const isAuthenticated = localStorage.getItem("auth");
+export function PrivateRoute({ children }) {
+  const { user, loading } = useAuth();
 
-  return isAuthenticated ? children : <Navigate to="/" />;
+  if (loading) return <p>Carregando...</p>
+
+  if (!user) {
+    return <Navigate to="/" replace />;
+  }
+  return children;
 }
-
-export default PrivateRoute;
