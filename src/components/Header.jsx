@@ -1,22 +1,23 @@
-import './Header.css';
-import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from "react-router-dom";
 
-function Header() {
-    const { logout } = useAuth();
+export default function Header() {
     const navigate = useNavigate();
 
     function handleLogout() {
-        logout();
         navigate("/");
     }
 
     return (
         <header className="header">
-            <h2>Sistema OS</h2>
+            <h1>Sistema OS</h1>
+
+            <nav className="nav">
+                <NavLink to="/dashboard">Dashboard</NavLink>
+                <NavLink to="/ordens">Ordens</NavLink>
+                <NavLink to="/nova-ordem">Nova Ordem</NavLink>
+            </nav>
+
             <button onClick={handleLogout}>Sair</button>
         </header>
-    )
+    );
 }
-
-export default Header;
