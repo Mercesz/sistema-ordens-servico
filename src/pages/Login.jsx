@@ -19,16 +19,31 @@ function Login() {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="login-page">
+      <div className="login-card">
+        <h1>Login</h1>
 
-      <form onSubmit={handleSubmit}>
-        <input type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
-        <input type="password" placeholder="Senha" onChange={e => setSenha(e.target.value)} />
-        <button type="submit">Entrar</button>
-      </form>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={e => setEmail(e.target.value)}
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Senha"
+            onChange={e => setSenha(e.target.value)}
+            required
+          />
+
+          <button type="submit">Entrar</button>
+        </form>
+      </div>
     </div>
   );
 }
 
 export default Login;
+

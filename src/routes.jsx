@@ -3,43 +3,27 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Ordens from "./pages/Ordens";
 import NovaOrdem from "./pages/NovaOrdem";
+import Layout from "./components/Layout";
 import { PrivateRoute } from "./routes/PrivateRoute";
 
-function AppRoutes() {
+export default function AppRoutes() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Login />} />
 
                 <Route
-                    path="/dashboard"
                     element={
                         <PrivateRoute>
-                            <Dashboard />
+                            <Layout />
                         </PrivateRoute>
                     }
-                />
-
-                <Route
-                    path="/ordens"
-                    element={
-                        <PrivateRoute>
-                            <Ordens />
-                        </PrivateRoute>
-                    }
-                />
-
-                <Route
-                    path="/nova-ordem"
-                    element={
-                        <PrivateRoute>
-                            <NovaOrdem />
-                        </PrivateRoute>
-                    }
-                />
+                >
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/ordens" element={<Ordens />} />
+                    <Route path="/nova-ordem" element={<NovaOrdem />} />
+                </Route>
             </Routes>
         </BrowserRouter>
     );
 }
-
-export default AppRoutes;

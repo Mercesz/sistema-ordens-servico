@@ -1,9 +1,6 @@
 import { useState } from "react";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
 import { api } from "../services/api";
 import { useNavigate } from "react-router-dom";
-import "../App.css";
 
 function NovaOrdem() {
     const [cliente, setCliente] = useState("");
@@ -24,35 +21,27 @@ function NovaOrdem() {
 
     return (
         <>
-            <Header />
+            <h1>Nova Ordem</h1>
 
-            <div className="app-layout">
-                <Sidebar />
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    placeholder="Cliente"
+                    value={cliente}
+                    onChange={e => setCliente(e.target.value)}
+                    required
+                />
 
-                <main className="content">
-                    <h1>Nova Ordem</h1>
+                <input
+                    type="text"
+                    placeholder="Descrição"
+                    value={descricao}
+                    onChange={e => setDescricao(e.target.value)}
+                    required
+                />
 
-                    <form onSubmit={handleSubmit}>
-                        <input
-                            type="text"
-                            placeholder="Cliente"
-                            value={cliente}
-                            onChange={e => setCliente(e.target.value)}
-                            required
-                        />
-
-                        <input
-                            type="text"
-                            placeholder="Descrição"
-                            value={descricao}
-                            onChange={e => setDescricao(e.target.value)}
-                            required
-                        />
-
-                        <button type="submit">Salvar</button>
-                    </form>
-                </main>
-            </div>
+                <button type="submit">Salvar</button>
+            </form>
         </>
     );
 }

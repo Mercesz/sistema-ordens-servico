@@ -1,9 +1,13 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import "./Header.css";
 
-export default function Header() {
+function Header() {
+    const { logout } = useAuth();
     const navigate = useNavigate();
 
     function handleLogout() {
+        logout();
         navigate("/");
     }
 
@@ -21,3 +25,5 @@ export default function Header() {
         </header>
     );
 }
+
+export default Header;

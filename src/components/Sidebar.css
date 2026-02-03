@@ -1,6 +1,13 @@
 .sidebar {
-    width: 200px;
-    background-color: #F4F4F4;
-    padding: 20px;
-    min-height: calc(100vh - 60px);
+    width: 220px;
+    background: #fff;
+    border-right: 1px solid #e5e7eb;
+    padding: 24px;
+}
+
+.sidebar a {
+    display: block;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #1f2933;
 }

@@ -280,3 +280,27 @@ input:focus {
     background-color: var(--primary);
     color: #fff;
 }
+
+/* ========================
+   LOGIN
+======================== */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 380px;
+    background-color: var(--card-bg);
+    padding: 32px;
+    border-radius: var(--radius);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.login-card h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
