@@ -304,3 +304,63 @@ input:focus {
     text-align: center;
     margin-bottom: 20px;
 }
+
+/* DashBoard */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.dashboard-card {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.dashboard-card span {
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.dashboard-card strong {
+    font-size: 28px;
+}
+
+.dashboard-card.aberta strong {
+    color: var(--primary);
+}
+
+.dashboard-card.andamento strong {
+    color: var(--warning);
+}
+
+.dashboard-card.finalizada strong {
+    color: var(--success);
+}
+
+.dashboard-subtitle {
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+.dashboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dashboard-item {
+    background-color: var(--card-bg);
+    padding: 16px;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
