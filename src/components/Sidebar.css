@@ -1,13 +1,47 @@
+/* ========================
+   SIDEBAR
+======================== */
 .sidebar {
     width: 220px;
-    background: #fff;
+    background-color: #ffffff;
     border-right: 1px solid #e5e7eb;
-    padding: 24px;
+    padding: 24px 16px;
+}
+
+.sidebar h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    margin-bottom: 6px;
 }
 
 .sidebar a {
-    display: block;
-    margin-bottom: 10px;
     text-decoration: none;
-    color: #1f2933;
+    color: var(--text);
+    font-weight: 500;
+    padding: 10px 14px;
+    display: block;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+}
+
+/* Hover */
+.sidebar a:hover {
+    background-color: #e3f2fd;
+    color: var(--primary);
+}
+
+/* Ativo */
+.sidebar a.active {
+    background-color: var(--primary);
+    color: #fff;
 }
