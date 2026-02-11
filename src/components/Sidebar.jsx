@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-import "./Sidebar.css";
 
 function Sidebar() {
     return (
@@ -8,27 +7,17 @@ function Sidebar() {
 
             <ul>
                 <li>
-                    <NavLink to="/dashboard" end>
-                        Dashboard
-                    </NavLink>
+                    <NavLink to="/dashboard">Dashboard</NavLink>
                 </li>
-
                 <li>
-                    <NavLink to="/ordens">
-                        Ordens
-                    </NavLink>
+                    <NavLink to="/ordens">Ordens</NavLink>
                 </li>
-
                 <li>
-                    <NavLink to="/nova-ordem">
-                        Nova Ordem
-                    </NavLink>
+                    <NavLink to="/nova-ordem">Nova Ordem</NavLink>
                 </li>
-
             </ul>
         </aside>
     );
 }
-
 
 export default Sidebar;

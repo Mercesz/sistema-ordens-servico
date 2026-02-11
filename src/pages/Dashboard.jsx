@@ -40,30 +40,38 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* Últimas ordens */}
-      <h2 className="dashboard-subtitle">Últimas ordens</h2>
+      {/* Conteúdo abaixo */}
+      <div className="dashboard-bottom">
+        <div className="dashboard-placeholder">
+          <h2>Resumo</h2>
+          <p>Área reservada para gráficos ou métricas futuras</p>
+        </div>
 
-      {loading && <p>Carregando...</p>}
+        <div className="dashboard-latest">
+          <h2>Últimas ordens</h2>
 
-      {!loading && ultimasOrdens.length === 0 && (
-        <p>Nenhuma ordem cadastrada</p>
-      )}
+          {loading && <p>Carregando...</p>}
 
-      <div className="dashboard-list">
-        {ultimasOrdens.map(ordem => (
-          <div key={ordem.id} className="dashboard-item">
-            <strong>{ordem.cliente}</strong>
-            <p>{ordem.descricao}</p>
+          {!loading && ultimasOrdens.length === 0 && (
+            <p>Nenhuma ordem cadastrada</p>
+          )}
 
-            <span
-              className={`status ${ordem.status
-                .toLowerCase()
-                .replace(" ", "-")}`}
-            >
-              {ordem.status}
-            </span>
+          <div className="dashboard-list">
+            {ultimasOrdens.map(ordem => (
+              <div key={ordem.id} className="dashboard-item">
+                <strong>{ordem.cliente}</strong>
+                <p>{ordem.descricao}</p>
+                <span
+                  className={`status ${ordem.status
+                    .toLowerCase()
+                    .replace(" ", "-")}`}
+                >
+                  {ordem.status}
+                </span>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </>
   );
