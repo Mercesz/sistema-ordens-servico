@@ -15,6 +15,10 @@ function Sidebar() {
                 <li>
                     <NavLink to="/nova-ordem">Nova Ordem</NavLink>
                 </li>
+
+                <li>
+                    <NavLink to="/clientes">Clientes</NavLink>
+                </li>
             </ul>
         </aside>
     );
