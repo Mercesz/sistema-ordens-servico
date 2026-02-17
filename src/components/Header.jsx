@@ -1,29 +1,19 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
-import "./Header.css";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 
 function Header() {
-    const { logout } = useAuth();
-    const navigate = useNavigate();
+  const { user, logout } = useContext(AuthContext);
 
-    function handleLogout() {
-        logout();
-        navigate("/");
-    }
+  return (
+    <header className="header">
+      <h3>Bem-vindo</h3>
 
-    return (
-        <header className="header">
-            <h1>Sistema OS</h1>
-
-            <nav className="nav">
-                <NavLink to="/dashboard">Dashboard</NavLink>
-                <NavLink to="/ordens">Ordens</NavLink>
-                <NavLink to="/nova-ordem">Nova Ordem</NavLink>
-            </nav>
-
-            <button onClick={handleLogout}>Sair</button>
-        </header>
-    );
+      <div className="header-right">
+        <span>{user?.email}</span>
+        <button onClick={logout}>Sair</button>
+      </div>
+    </header>
+  );
 }
 
 export default Header;
