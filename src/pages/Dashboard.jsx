@@ -1,5 +1,6 @@
 import { useOrdens } from "../hooks/useOrdens";
 import "../App.css";
+import { sortOrdensByNewest } from "../utils/ordens";
 
 function Dashboard() {
   const { ordens, loading } = useOrdens();
@@ -9,9 +10,7 @@ function Dashboard() {
   const andamento = ordens.filter(o => o.status === "Em andamento").length;
   const finalizadas = ordens.filter(o => o.status === "Finalizada").length;
 
-  const ultimasOrdens = [...ordens]
-    .sort((a, b) => b.id - a.id)
-    .slice(0, 5);
+  const ultimasOrdens = sortOrdensByNewest(ordens).slice(0, 5);
 
   return (
     <>

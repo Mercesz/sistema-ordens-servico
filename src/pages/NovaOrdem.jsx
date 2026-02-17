@@ -13,7 +13,8 @@ function NovaOrdem() {
         await api.post("/ordens", {
             cliente,
             descricao,
-            status: "Aberta"
+            status: "Aberta",
+            createdAt: new Date().toISOString()
         });
 
         navigate("/ordens");
