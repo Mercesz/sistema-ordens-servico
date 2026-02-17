@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useOrdens } from "../hooks/useOrdens";
+import { sortOrdensByNewest } from "../utils/ordens";
 
 function Ordens() {
   const { ordens, loading, updateStatus, deleteOrdem } = useOrdens();
@@ -16,11 +17,9 @@ function Ordens() {
   const totalAndamento = ordens.filter(o => o.status === "Em andamento").length;
   const totalFinalizadas = ordens.filter(o => o.status === "Finalizada").length;
 
-  const ordensFiltradas = (
-    filtro === "Todas"
-      ? ordens
-      : ordens.filter(o => o.status === filtro)
-  ).slice().sort((a, b) => b.id - a.id);
+  const ordensFiltradas = sortOrdensByNewest(
+    filtro === "Todas" ? ordens : ordens.filter(o => o.status === filtro)
+  );
 
   return (
     <>
