@@ -381,3 +381,18 @@ input:focus {
 .dashboard-latest h2 {
     margin-bottom: 16px;
 }
+
+
+/* Pagina de Clientes */
+
+th,
+td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.table-container {
+    background: white;
+    border-radius: 8px;
+    padding: 16px;
+}
