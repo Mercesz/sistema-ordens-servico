@@ -28,6 +28,20 @@ body {
     color: var(--text);
 }
 
+.menu-item {
+    display: block;
+    padding: 10px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.menu-item.active {
+    background-color: #e2e8f0;
+    font-weight: 600;
+}
+
+
 /* ========================
    HEADER
 ======================== */
