@@ -1,11 +1,18 @@
+import { useState } from "react";
+
 export default function Clientes() {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className="page-container">
-      
+
       {/* Cabeçalho */}
       <div className="page-header">
         <h1>Clientes</h1>
-        <button className="btn-primary">
+        <button
+          className="btn-primary"
+          onClick={() => setShowModal(true)}
+        >
           Novo Cliente
         </button>
       </div>
@@ -45,8 +52,42 @@ export default function Clientes() {
             </tr>
           </tbody>
         </table>
-      </div>
+        {showModal && (
+          <div className="modal-overlay">
 
-    </div>
+            <div className="modal">
+
+              <h2>Novo Cliente</h2>
+
+              <form>
+
+                <input type="text" placeholder="Nome" />
+                <input type="text" placeholder="Telefone" />
+                <input type="email" placeholder="Email" />
+                <input type="text" placeholder="Cidade" />
+
+                <div className="modal-actions">
+                  <button
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Cancelar
+                  </button>
+
+                  <button type="submit" className="btn-primary">
+                    Salvar
+                  </button>
+                </div>
+
+              </form>
+
+            </div>
+
+          </div>
+        )}
+
+      </div >
+
+    </div >
   );
 }
