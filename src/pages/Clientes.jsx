@@ -3,6 +3,37 @@ import { useState } from "react";
 export default function Clientes() {
   const [showModal, setShowModal] = useState(false);
 
+  const [clientes, setClientes] = useState([]);
+
+  const [formData, setFormData] = useState({
+    nome: "",
+    telefone: "",
+    email: "",
+    cidade: ""
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    setClientes([...clientes, formData]);
+
+    setFormData({
+      nome: "",
+      telefone: "",
+      email: "",
+      cidade: ""
+    });
+
+    setShowModal(false);
+  };
+
   return (
     <div className="page-container">
 
@@ -31,26 +62,25 @@ export default function Clientes() {
           </thead>
 
           <tbody>
-            <tr>
-              <td>João Silva</td>
-              <td>(11) 99999-9999</td>
-              <td>joao@email.com</td>
-              <td>São Paulo</td>
-              <td>
-                <button>Ver</button>
-              </td>
-            </tr>
-
-            <tr>
-              <td>Maria Souza</td>
-              <td>(11) 88888-8888</td>
-              <td>maria@email.com</td>
-              <td>Campinas</td>
-              <td>
-                <button>Ver</button>
-              </td>
-            </tr>
+            {clientes.length === 0 ? (
+              <tr>
+                <td colSpan="5">Nenhum cliente cadastrado</td>
+              </tr>
+            ) : (
+              clientes.map((cliente, index) => (
+                <tr key={index}>
+                  <td>{cliente.nome}</td>
+                  <td>{cliente.telefone}</td>
+                  <td>{cliente.email}</td>
+                  <td>{cliente.cidade}</td>
+                  <td>
+                    <button>Ver</button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
+
         </table>
         {showModal && (
           <div className="modal-overlay">
@@ -59,12 +89,36 @@ export default function Clientes() {
 
               <h2>Novo Cliente</h2>
 
-              <form>
+              <form onSubmit={handleSubmit}>
 
-                <input type="text" placeholder="Nome" />
-                <input type="text" placeholder="Telefone" />
-                <input type="email" placeholder="Email" />
-                <input type="text" placeholder="Cidade" />
+                <input
+                  name="nome"
+                  value={formData.nome}
+                  onChange={handleChange}
+                  placeholder="Nome"
+                />
+
+                <input
+                  name="telefone"
+                  value={formData.telefone}
+                  onChange={handleChange}
+                  placeholder="Telefone"
+                />
+
+                <input
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Email"
+                />
+
+                <input
+                  name="cidade"
+                  value={formData.cidade}
+                  onChange={handleChange}
+                  placeholder="Cidade"
+                />
+
 
                 <div className="modal-actions">
                   <button
