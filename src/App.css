@@ -160,6 +160,14 @@ body {
     color: var(--text-light);
 }
 
+.card {
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
 /* ========================
    STATUS
 ======================== */

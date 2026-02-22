@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Clientes() {
   const [showModal, setShowModal] = useState(false);
 
-  const [clientes, setClientes] = useState([]);
+  const [clientes, setClientes] = useState(() => {
+    try {
+      const dados = localStorage.getItem("clientes");
+      return dados ? JSON.parse(dados) : [];
+    } catch (error) {
+      console.error("Erro ao carregar clientes:", error);
+      localStorage.removeItem("clientes");
+      return [];
+    }
+  });
 
   const [formData, setFormData] = useState({
     nome: "",
@@ -22,7 +31,12 @@ export default function Clientes() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setClientes([...clientes, formData]);
+    const novoCliente = {
+      id: Date.now(),
+      ...formData
+    };
+
+    setClientes([...clientes, novoCliente]);
 
     setFormData({
       nome: "",
@@ -32,6 +46,21 @@ export default function Clientes() {
     });
 
     setShowModal(false);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("clientes", JSON.stringify(clientes));
+  }, [clientes]);
+
+
+  // Função de ver cliente
+  const verCliente = (cliente) => {
+    alert(
+      `Nome: ${cliente.nome}
+Telefone: ${cliente.telefone}
+Email: ${cliente.email}
+Cidade: ${cliente.cidade}`
+    );
   };
 
   return (
@@ -68,13 +97,13 @@ export default function Clientes() {
               </tr>
             ) : (
               clientes.map((cliente, index) => (
-                <tr key={index}>
+                <tr key={cliente.id}>
                   <td>{cliente.nome}</td>
                   <td>{cliente.telefone}</td>
                   <td>{cliente.email}</td>
                   <td>{cliente.cidade}</td>
                   <td>
-                    <button>Ver</button>
+                    <button onClick={() => verCliente(cliente)}>Ver</button>
                   </td>
                 </tr>
               ))
