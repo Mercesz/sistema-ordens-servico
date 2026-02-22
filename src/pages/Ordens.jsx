@@ -1,47 +1,62 @@
 import { useEffect, useState } from "react";
 import { useOrdens } from "../hooks/useOrdens";
+import OrdemCard from "../components/OrdemCard";
+
+/* Status padronizados */
+const STATUS = {
+  TODAS: "Todas",
+  ABERTA: "Aberta",
+  ANDAMENTO: "Em andamento",
+  FINALIZADA: "Finalizada",
+};
+
+/* Hook simples para localStorage */
+function useLocalStorage(key, initialValue) {
+  const [value, setValue] = useState(() => {
+    return localStorage.getItem(key) || initialValue;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [key, value]);
+
+  return [value, setValue];
+}
 
 function Ordens() {
   const { ordens, loading, updateStatus, deleteOrdem } = useOrdens();
 
-  const [filtro, setFiltro] = useState(
-    localStorage.getItem("filtroOrdens") || "Todas"
-  );
+  const [filtro, setFiltro] = useLocalStorage("filtroOrdens", STATUS.TODAS);
 
-  useEffect(() => {
-    localStorage.setItem("filtroOrdens", filtro);
-  }, [filtro]);
+  /* Contadores por status */
+  const contagem = {
+    [STATUS.TODAS]: ordens.length,
+    [STATUS.ABERTA]: ordens.filter(o => o.status === STATUS.ABERTA).length,
+    [STATUS.ANDAMENTO]: ordens.filter(o => o.status === STATUS.ANDAMENTO).length,
+    [STATUS.FINALIZADA]: ordens.filter(o => o.status === STATUS.FINALIZADA).length,
+  };
 
-  const totalAbertas = ordens.filter(o => o.status === "Aberta").length;
-  const totalAndamento = ordens.filter(o => o.status === "Em andamento").length;
-  const totalFinalizadas = ordens.filter(o => o.status === "Finalizada").length;
-
-  const ordensFiltradas = (
-    filtro === "Todas"
-      ? ordens
-      : ordens.filter(o => o.status === filtro)
-  ).slice().sort((a, b) => b.id - a.id);
+  /* Filtro + ordenação */
+  const ordensFiltradas = ordens
+    .filter(o => filtro === STATUS.TODAS || o.status === filtro)
+    .slice()
+    .sort((a, b) => b.id - a.id);
 
   return (
     <>
       <h1>Ordens de Serviços</h1>
 
+      {/* Filtros dinâmicos */}
       <div className="filters">
-        <button className={filtro === "Todas" ? "active" : ""} onClick={() => setFiltro("Todas")}>
-          Todas ({ordens.length})
-        </button>
-
-        <button className={filtro === "Aberta" ? "active" : ""} onClick={() => setFiltro("Aberta")}>
-          Abertas ({totalAbertas})
-        </button>
-
-        <button className={filtro === "Em andamento" ? "active" : ""} onClick={() => setFiltro("Em andamento")}>
-          Em andamento ({totalAndamento})
-        </button>
-
-        <button className={filtro === "Finalizada" ? "active" : ""} onClick={() => setFiltro("Finalizada")}>
-          Finalizadas ({totalFinalizadas})
-        </button>
+        {Object.values(STATUS).map(status => (
+          <button
+            key={status}
+            className={filtro === status ? "active" : ""}
+            onClick={() => setFiltro(status)}
+          >
+            {status} ({contagem[status]})
+          </button>
+        ))}
       </div>
 
       {loading && <p>Carregando ordens...</p>}
@@ -51,34 +66,12 @@ function Ordens() {
       )}
 
       {ordensFiltradas.map(ordem => (
-        <div key={ordem.id} className="card">
-          <strong>{ordem.cliente}</strong>
-          <p>{ordem.descricao}</p>
-
-          <span className={`status ${ordem.status.toLowerCase().replace(" ", "-")}`}>
-            Status: {ordem.status}
-          </span>
-
-          <div className="actions">
-            <button
-              onClick={() => updateStatus(ordem.id, "Em andamento")}
-              disabled={ordem.status !== "Aberta"}
-            >
-              Em andamento
-            </button>
-
-            <button
-              onClick={() => updateStatus(ordem.id, "Finalizada")}
-              disabled={ordem.status === "Finalizada"}
-            >
-              Finalizar
-            </button>
-
-            <button className="danger" onClick={() => deleteOrdem(ordem.id)}>
-              Excluir
-            </button>
-          </div>
-        </div>
+        <OrdemCard
+          key={ordem.id}
+          ordem={ordem}
+          updateStatus={updateStatus}
+          deleteOrdem={deleteOrdem}
+        />
       ))}
     </>
   );
