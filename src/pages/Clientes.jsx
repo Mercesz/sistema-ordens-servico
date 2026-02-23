@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 
 export default function Clientes() {
+
   const [showModal, setShowModal] = useState(false);
+  const [clienteEditando, setClienteEditando] = useState(null);
 
   const [clientes, setClientes] = useState(() => {
     try {
@@ -28,32 +30,43 @@ export default function Clientes() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const novoCliente = {
-      id: Date.now(),
-      ...formData
-    };
-
-    setClientes([...clientes, novoCliente]);
-
+  const limparFormulario = () => {
     setFormData({
       nome: "",
       telefone: "",
       email: "",
       cidade: ""
     });
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // EDITAR
+    if (clienteEditando) {
+      const clientesAtualizados = clientes.map(c =>
+        c.id === clienteEditando.id
+          ? { ...c, ...formData }
+          : c
+      );
+
+      setClientes(clientesAtualizados);
+      setClienteEditando(null);
+    }
+    // NOVO
+    else {
+      const novoCliente = {
+        id: Date.now(),
+        ...formData
+      };
+
+      setClientes([...clientes, novoCliente]);
+    }
+
+    limparFormulario();
     setShowModal(false);
   };
 
-  useEffect(() => {
-    localStorage.setItem("clientes", JSON.stringify(clientes));
-  }, [clientes]);
-
-
-  // Função de ver cliente
   const verCliente = (cliente) => {
     alert(
       `Nome: ${cliente.nome}
@@ -63,21 +76,41 @@ Cidade: ${cliente.cidade}`
     );
   };
 
+  const editarCliente = (cliente) => {
+    setClienteEditando(cliente);
+    setFormData({
+      nome: cliente.nome,
+      telefone: cliente.telefone,
+      email: cliente.email,
+      cidade: cliente.cidade
+    });
+    setShowModal(true);
+  };
+
+  // PERSISTÊNCIA
+  useEffect(() => {
+    localStorage.setItem("clientes", JSON.stringify(clientes));
+  }, [clientes]);
+
   return (
     <div className="page-container">
 
-      {/* Cabeçalho */}
+      {/* CABEÇALHO */}
       <div className="page-header">
         <h1>Clientes</h1>
         <button
           className="btn-primary"
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            limparFormulario();
+            setClienteEditando(null);
+            setShowModal(true);
+          }}
         >
           Novo Cliente
         </button>
       </div>
 
-      {/* Tabela de clientes */}
+      {/* TABELA */}
       <div className="table-container">
         <table>
           <thead>
@@ -96,27 +129,35 @@ Cidade: ${cliente.cidade}`
                 <td colSpan="5">Nenhum cliente cadastrado</td>
               </tr>
             ) : (
-              clientes.map((cliente, index) => (
+              clientes.map(cliente => (
                 <tr key={cliente.id}>
                   <td>{cliente.nome}</td>
                   <td>{cliente.telefone}</td>
                   <td>{cliente.email}</td>
                   <td>{cliente.cidade}</td>
                   <td>
-                    <button onClick={() => verCliente(cliente)}>Ver</button>
+                    <button onClick={() => verCliente(cliente)}>
+                      Ver
+                    </button>
+
+                    <button onClick={() => editarCliente(cliente)}>
+                      Editar
+                    </button>
                   </td>
                 </tr>
               ))
             )}
           </tbody>
-
         </table>
+
+        {/* MODAL */}
         {showModal && (
           <div className="modal-overlay">
-
             <div className="modal">
 
-              <h2>Novo Cliente</h2>
+              <h2>
+                {clienteEditando ? "Editar Cliente" : "Novo Cliente"}
+              </h2>
 
               <form onSubmit={handleSubmit}>
 
@@ -125,6 +166,7 @@ Cidade: ${cliente.cidade}`
                   value={formData.nome}
                   onChange={handleChange}
                   placeholder="Nome"
+                  required
                 />
 
                 <input
@@ -132,6 +174,7 @@ Cidade: ${cliente.cidade}`
                   value={formData.telefone}
                   onChange={handleChange}
                   placeholder="Telefone"
+                  required
                 />
 
                 <input
@@ -139,6 +182,7 @@ Cidade: ${cliente.cidade}`
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Email"
+                  required
                 />
 
                 <input
@@ -146,13 +190,17 @@ Cidade: ${cliente.cidade}`
                   value={formData.cidade}
                   onChange={handleChange}
                   placeholder="Cidade"
+                  required
                 />
-
 
                 <div className="modal-actions">
                   <button
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {
+                      setShowModal(false);
+                      setClienteEditando(null);
+                      limparFormulario();
+                    }}
                   >
                     Cancelar
                   </button>
@@ -165,12 +213,10 @@ Cidade: ${cliente.cidade}`
               </form>
 
             </div>
-
           </div>
         )}
 
-      </div >
-
-    </div >
+      </div>
+    </div>
   );
 }
