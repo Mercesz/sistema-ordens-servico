@@ -4,6 +4,7 @@ export default function Clientes() {
 
   const [showModal, setShowModal] = useState(false);
   const [clienteEditando, setClienteEditando] = useState(null);
+  const [busca, setBusca] = useState("");
 
   const [clientes, setClientes] = useState(() => {
     try {
@@ -39,12 +40,15 @@ export default function Clientes() {
     });
   };
 
+  const clientesFiltrados = clientes.filter((cliente) =>
+    cliente.nome.toLowerCase().includes(busca.toLowerCase())
+  );
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // EDITAR
     if (clienteEditando) {
-      const clientesAtualizados = clientes.map(c =>
+      const clientesAtualizados = clientes.map((c) =>
         c.id === clienteEditando.id
           ? { ...c, ...formData }
           : c
@@ -52,9 +56,7 @@ export default function Clientes() {
 
       setClientes(clientesAtualizados);
       setClienteEditando(null);
-    }
-    // NOVO
-    else {
+    } else {
       const novoCliente = {
         id: Date.now(),
         ...formData
@@ -87,7 +89,6 @@ Cidade: ${cliente.cidade}`
     setShowModal(true);
   };
 
-  // PERSISTÊNCIA
   useEffect(() => {
     localStorage.setItem("clientes", JSON.stringify(clientes));
   }, [clientes]);
@@ -110,6 +111,15 @@ Cidade: ${cliente.cidade}`
         </button>
       </div>
 
+      {/* CAMPO DE BUSCA */}
+      <input
+        type="text"
+        placeholder="Buscar cliente pelo nome..."
+        value={busca}
+        onChange={(e) => setBusca(e.target.value)}
+        className="input-busca"
+      />
+
       {/* TABELA */}
       <div className="table-container">
         <table>
@@ -128,8 +138,12 @@ Cidade: ${cliente.cidade}`
               <tr>
                 <td colSpan="5">Nenhum cliente cadastrado</td>
               </tr>
+            ) : clientesFiltrados.length === 0 ? (
+              <tr>
+                <td colSpan="5">Nenhum cliente encontrado</td>
+              </tr>
             ) : (
-              clientes.map(cliente => (
+              clientesFiltrados.map((cliente) => (
                 <tr key={cliente.id}>
                   <td>{cliente.nome}</td>
                   <td>{cliente.telefone}</td>
@@ -149,74 +163,74 @@ Cidade: ${cliente.cidade}`
             )}
           </tbody>
         </table>
-
-        {/* MODAL */}
-        {showModal && (
-          <div className="modal-overlay">
-            <div className="modal">
-
-              <h2>
-                {clienteEditando ? "Editar Cliente" : "Novo Cliente"}
-              </h2>
-
-              <form onSubmit={handleSubmit}>
-
-                <input
-                  name="nome"
-                  value={formData.nome}
-                  onChange={handleChange}
-                  placeholder="Nome"
-                  required
-                />
-
-                <input
-                  name="telefone"
-                  value={formData.telefone}
-                  onChange={handleChange}
-                  placeholder="Telefone"
-                  required
-                />
-
-                <input
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Email"
-                  required
-                />
-
-                <input
-                  name="cidade"
-                  value={formData.cidade}
-                  onChange={handleChange}
-                  placeholder="Cidade"
-                  required
-                />
-
-                <div className="modal-actions">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowModal(false);
-                      setClienteEditando(null);
-                      limparFormulario();
-                    }}
-                  >
-                    Cancelar
-                  </button>
-
-                  <button type="submit" className="btn-primary">
-                    Salvar
-                  </button>
-                </div>
-
-              </form>
-
-            </div>
-          </div>
-        )}
-
       </div>
+
+      {/* MODAL */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+
+            <h2>
+              {clienteEditando ? "Editar Cliente" : "Novo Cliente"}
+            </h2>
+
+            <form onSubmit={handleSubmit}>
+
+              <input
+                name="nome"
+                value={formData.nome}
+                onChange={handleChange}
+                placeholder="Nome"
+                required
+              />
+
+              <input
+                name="telefone"
+                value={formData.telefone}
+                onChange={handleChange}
+                placeholder="Telefone"
+                required
+              />
+
+              <input
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+                required
+              />
+
+              <input
+                name="cidade"
+                value={formData.cidade}
+                onChange={handleChange}
+                placeholder="Cidade"
+                required
+              />
+
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowModal(false);
+                    setClienteEditando(null);
+                    limparFormulario();
+                  }}
+                >
+                  Cancelar
+                </button>
+
+                <button type="submit" className="btn-primary">
+                  Salvar
+                </button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
