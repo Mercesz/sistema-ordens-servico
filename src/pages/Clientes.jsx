@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "../App.css";
 
 export default function Clientes() {
 
@@ -84,10 +85,18 @@ Cidade: ${cliente.cidade}`
       nome: cliente.nome,
       telefone: cliente.telefone,
       email: cliente.email,
-      cidade: cliente.cidade
     });
     setShowModal(true);
   };
+
+  const excluirCliente = (id) => {
+    const confirmar = window.confirm("Tem certeza que deseja excluir este cliente?");
+
+    if (confirmar) {
+      const clientesAtualizados = cliente.filter(cliente => cliente.id !== id);
+      setClientes(clientesAtualizados);
+    }
+  }
 
   useEffect(() => {
     localStorage.setItem("clientes", JSON.stringify(clientes));
@@ -156,6 +165,13 @@ Cidade: ${cliente.cidade}`
 
                     <button onClick={() => editarCliente(cliente)}>
                       Editar
+                    </button>
+
+                    <button
+                      onClick={() => excluirCliente(cliente.id)}
+                      style={{ backgroundColor: "#e74c3c", color: "white", marginLeft: "5px" }}
+                    >
+                      Excluir
                     </button>
                   </td>
                 </tr>
