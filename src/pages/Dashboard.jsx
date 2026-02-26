@@ -5,10 +5,23 @@ function Dashboard() {
   const { ordens, loading } = useOrdens();
 
   const total = ordens.length;
+
+  // Contagem por status
   const abertas = ordens.filter(o => o.status === "Aberta").length;
   const andamento = ordens.filter(o => o.status === "Em andamento").length;
   const finalizadas = ordens.filter(o => o.status === "Finalizada").length;
 
+  // Função para calcular porcentagem
+  const porcentagem = (valor) => {
+    if (total === 0) return 0;
+    return Math.round((valor / total) * 100);
+  };
+
+  const abertasPct = porcentagem(abertas);
+  const andamentoPct = porcentagem(andamento);
+  const finalizadasPct = porcentagem(finalizadas);
+
+  // Últimas 5 ordens
   const ultimasOrdens = [...ordens]
     .sort((a, b) => b.id - a.id)
     .slice(0, 5);
@@ -27,16 +40,40 @@ function Dashboard() {
         <div className="dashboard-card aberta">
           <span>Abertas</span>
           <strong>{abertas}</strong>
+          <small>{abertasPct}% do total</small>
+
+          <div className="progress-bar">
+            <div
+              className="progress"
+              style={{ width: `${abertasPct}%` }}
+            />
+          </div>
         </div>
 
         <div className="dashboard-card andamento">
           <span>Em andamento</span>
           <strong>{andamento}</strong>
+          <small>{andamentoPct}% do total</small>
+
+          <div className="progress-bar">
+            <div
+              className="progress"
+              style={{ width: `${andamentoPct}%` }}
+            />
+          </div>
         </div>
 
         <div className="dashboard-card finalizada">
           <span>Finalizadas</span>
           <strong>{finalizadas}</strong>
+          <small>{finalizadasPct}% do total</small>
+
+          <div className="progress-bar">
+            <div
+              className="progress"
+              style={{ width: `${finalizadasPct}%` }}
+            />
+          </div>
         </div>
       </div>
 

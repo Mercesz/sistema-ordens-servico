@@ -139,33 +139,30 @@ body {
 /* ========================
    CARDS (ORDENS)
 ======================== */
-.card {
-    background-color: var(--card-bg);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 16px;
-
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.progress-bar {
+    background: #e5e7eb;
+    height: 8px;
+    border-radius: 4px;
+    margin-top: 6px;
+    overflow: hidden;
 }
 
-.card strong {
-    font-size: 16px;
+.progress {
+    height: 100%;
+    background: #2563eb;
+    transition: width 0.3s ease;
 }
 
-.card p {
-    color: var(--text-light);
+.dashboard-card.aberta .progress {
+    background: #f59e0b;
 }
 
-.card {
-    transition: 0.2s;
+.dashboard-card.andamento .progress {
+    background: #3b82f6;
 }
 
-.card:hover {
-    transform: scale(1.02);
+.dashboard-card.finalizada .progress {
+    background: #10b981;
 }
 
 /* ========================
