@@ -464,3 +464,13 @@ td button {
     padding: 5px 8px;
     cursor: pointer;
 }
+
+.input-busca {
+    padding: 8px;
+    margin-right: 10px;
+}
+
+.btn-secondary {
+    padding: 8px 12px;
+    cursor: pointer;
+}

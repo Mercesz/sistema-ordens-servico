@@ -6,6 +6,7 @@ export default function Clientes() {
   const [showModal, setShowModal] = useState(false);
   const [clienteEditando, setClienteEditando] = useState(null);
   const [busca, setBusca] = useState("");
+  const [ordem, setOrdem] = useState("asc");
 
   const [clientes, setClientes] = useState(() => {
     try {
@@ -41,9 +42,17 @@ export default function Clientes() {
     });
   };
 
-  const clientesFiltrados = clientes.filter((cliente) =>
-    cliente.nome.toLowerCase().includes(busca.toLowerCase())
-  );
+  const clientesFiltrados = clientes
+    .filter((cliente) =>
+      cliente.nome.toLowerCase().includes(busca.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (ordem === "asc") {
+        return a.nome.localeCompare(b.nome);
+      } else {
+        return b.nome.localeCompare(a.nome);
+      }
+    });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -128,6 +137,14 @@ Cidade: ${cliente.cidade}`
         onChange={(e) => setBusca(e.target.value)}
         className="input-busca"
       />
+
+      <button
+        onClick={() => setOrdem(ordem === "asc" ? "desc" : "asc")}
+        className="btn-secondary"
+      >
+        Ordenar {ordem === "asc" ? "Z-A" : "A-Z"}
+      </button>
+
 
       {/* TABELA */}
       <div className="table-container">
