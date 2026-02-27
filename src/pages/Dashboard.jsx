@@ -1,5 +1,6 @@
 import { useOrdens } from "../hooks/useOrdens";
 import "../App.css";
+import DashboardCard from "../components/DashboardCard";
 
 function Dashboard() {
   const { ordens, loading } = useOrdens();
@@ -30,55 +31,36 @@ function Dashboard() {
     <>
       <h1>Dashboard</h1>
 
-      {/* Cards resumo */}
       <div className="dashboard-cards">
-        <div className="dashboard-card">
-          <span>Total</span>
-          <strong>{total}</strong>
-        </div>
+        <DashboardCard
+          titulo="Total"
+          valor={total}
+        />
 
-        <div className="dashboard-card aberta">
-          <span>Abertas</span>
-          <strong>{abertas}</strong>
-          <small>{abertasPct}% do total</small>
+        <DashboardCard
+          titulo="Abertas"
+          valor={abertas}
+          porcentagem={abertasPct}
+          tipo="aberta"
+        />
 
-          <div className="progress-bar">
-            <div
-              className="progress"
-              style={{ width: `${abertasPct}%` }}
-            />
-          </div>
-        </div>
+        <DashboardCard
+          titulo="Em andamento"
+          valor={andamento}
+          porcentagem={andamentoPct}
+          tipo="andamento"
+        />
 
-        <div className="dashboard-card andamento">
-          <span>Em andamento</span>
-          <strong>{andamento}</strong>
-          <small>{andamentoPct}% do total</small>
-
-          <div className="progress-bar">
-            <div
-              className="progress"
-              style={{ width: `${andamentoPct}%` }}
-            />
-          </div>
-        </div>
-
-        <div className="dashboard-card finalizada">
-          <span>Finalizadas</span>
-          <strong>{finalizadas}</strong>
-          <small>{finalizadasPct}% do total</small>
-
-          <div className="progress-bar">
-            <div
-              className="progress"
-              style={{ width: `${finalizadasPct}%` }}
-            />
-          </div>
-        </div>
+        <DashboardCard
+          titulo="Finalizadas"
+          valor={finalizadas}
+          porcentagem={finalizadasPct}
+          tipo="finalizada"
+        />
       </div>
 
       {/* Conteúdo abaixo */}
-      <div className="dashboard-bottom">
+      < div className="dashboard-bottom" >
         <div className="dashboard-placeholder">
           <h2>Resumo</h2>
           <p>Área reservada para gráficos ou métricas futuras</p>
@@ -109,7 +91,7 @@ function Dashboard() {
             ))}
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 }
