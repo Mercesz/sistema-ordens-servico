@@ -1,6 +1,7 @@
 import { useOrdens } from "../hooks/useOrdens";
 import "../App.css";
 import DashboardCard from "../components/DashboardCard";
+import DashboardChart from "../components/DashboardChart";
 
 function Dashboard() {
   const { ordens, loading } = useOrdens();
@@ -59,39 +60,14 @@ function Dashboard() {
         />
       </div>
 
-      {/* Conteúdo abaixo */}
-      < div className="dashboard-bottom" >
-        <div className="dashboard-placeholder">
-          <h2>Resumo</h2>
-          <p>Área reservada para gráficos ou métricas futuras</p>
-        </div>
-
-        <div className="dashboard-latest">
-          <h2>Últimas ordens</h2>
-
-          {loading && <p>Carregando...</p>}
-
-          {!loading && ultimasOrdens.length === 0 && (
-            <p>Nenhuma ordem cadastrada</p>
-          )}
-
-          <div className="dashboard-list">
-            {ultimasOrdens.map(ordem => (
-              <div key={ordem.id} className="dashboard-item">
-                <strong>{ordem.cliente}</strong>
-                <p>{ordem.descricao}</p>
-                <span
-                  className={`status ${ordem.status
-                    .toLowerCase()
-                    .replace(" ", "-")}`}
-                >
-                  {ordem.status}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div >
+      <div className="dashboard-placeholder">
+        <h2>Resumo</h2>
+        <DashboardChart
+          abertas={abertas}
+          andamento={andamento}
+          finalizadas={finalizadas}
+        />
+      </div>
     </>
   );
 }
