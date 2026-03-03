@@ -1,46 +1,53 @@
-let ordens = [
-    {
-        id: 1,
-        cliente: "João",
-        descricao: "Troca de tela",
-        status: "Aberta",
-    },
-    {
-        id: 2,
-        cliente: "Maria",
-        descricao: "Formatação",
-        status: "Finalizada",
-    },
-];
+import Ordem from "../models/Ordem.js";
 
-export const listarOrdens = (req, res) => {
-    res.json(ordens);
+export const listarOrdens = async (req, res) => {
+  try {
+    const ordens = await Ordem.find();
+    res.status(200).json(ordens);
+  } catch (error) {
+    res.status(500).json({ message: "Erro ao listar ordens" });
+  }
 };
 
-export const criarOrdem = (req, res) => {
-    const novaOrdem = {
-        id: ordens.length + 1,
-        ...req.body,
-    };
-
-    ordens.push(novaOrdem);
+export const criarOrdem = async (req, res) => {
+  try {
+    const novaOrdem = await Ordem.create(req.body);
     res.status(201).json(novaOrdem);
+  } catch (error) {
+    res.status(400).json({ message: "Erro ao criar ordem" });
+  }
 };
 
-export const atualizarOrdem = (req, res) => {
+export const atualizarOrdem = async (req, res) => {
+  try {
     const { id } = req.params;
 
-    ordens = ordens.map(ordem =>
-        ordem.id == id ? { ...ordem, ...req.body } : ordem
-    );
+    const ordem = await Ordem.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
 
-    res.json({ message: "Ordem atualizada" });
+    if (!ordem) {
+      return res.status(404).json({ message: "Ordem não encontrada" });
+    }
+
+    res.status(200).json(ordem);
+  } catch (error) {
+    res.status(400).json({ message: "Erro ao atualizar ordem" });
+  }
 };
 
-export const deletarOrdem = (req, res) => {
+export const deletarOrdem = async (req, res) => {
+  try {
     const { id } = req.params;
 
-    ordens = ordens.filter(ordem => ordem.id != id);
+    const ordem = await Ordem.findByIdAndDelete(id);
 
-    res.json({ message: "Ordem removida" });
+    if (!ordem) {
+      return res.status(404).json({ message: "Ordem não encontrada" });
+    }
+
+    res.status(200).json({ message: "Ordem removida" });
+  } catch (error) {
+    res.status(400).json({ message: "Erro ao deletar ordem" });
+  }
 };
